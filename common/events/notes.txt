@@ -1,0 +1,11 @@
+🔹 Why eventVersion?
+Allows schema evolution without breaking consumers.
+
+🔹 Why PRODUCT_UPSERT instead of CREATE/UPDATE?
+Search only cares about the latest state, not lifecycle details.
+
+🔹 Why full payload instead of partial?
+Makes reindexing from Kafka possible without DB access.
+
+🔹 Why timestamps?
+Helps with debugging, ordering, and reprocessing.

@@ -1,0 +1,13 @@
+{
+  "eventVersion": 1,
+  "eventType": "PRODUCT_UPSERT",
+  "eventTime": "2026-01-01T10:00:00Z",
+  "payload": {
+    "id": "uuid",
+    "name": "string",
+    "description": "string",
+    "category": "string",
+    "price": 100.50,
+    "createdAt": "2026-01-01T09:00:00Z"
+  }
+}
