@@ -19,3 +19,8 @@ Search index can be rebuilt by replaying events from Kafka.
 
 ### Ownership
 This contract is owned by the Search team.
+
+
+### WHY UPSERT in product-search-event?
+Search cares about the latest state and idempotent indexing.
+UPSERT simplifies consumers and enables safe reindexing from Kafka.
