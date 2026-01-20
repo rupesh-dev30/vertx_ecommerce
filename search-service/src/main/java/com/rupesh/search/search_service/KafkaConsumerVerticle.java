@@ -17,15 +17,22 @@ public class KafkaConsumerVerticle extends AbstractVerticle {
 
   @Override
   public void start(Promise<Void> startPromise) {
+    System.out.println("KafkaConsumerVerticle start() called");
     // 1. Initialize Solr Client
     this.solrClient = SolrClientProvider.getClient();
 
     // 2. Kafka Configuration
     Map<String, String> config = new HashMap<>();
-    config.put("bootstrap.servers", "localhost:9092");
+    config.put(
+      "bootstrap.servers",
+      System.getenv().getOrDefault(
+        "KAFKA_BOOTSTRAP_SERVERS",
+        "ecommerce-kafka:9092"
+      )
+    );
     config.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
     config.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
-    config.put("group.id", "search-indexer");
+    config.put("group.id", "search-indexer-v2");
     config.put("auto.offset.reset", "earliest");
     config.put("enable.auto.commit", "true");
 
@@ -34,6 +41,7 @@ public class KafkaConsumerVerticle extends AbstractVerticle {
 
     // 4. Set up Handler with executeBlocking
     consumer.handler(record -> {
+      System.out.println("🔥 Consumed Kafka event: " + record.value());
       JsonObject event = new JsonObject(record.value());
       indexToSolr(event);
     });

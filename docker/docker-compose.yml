@@ -33,8 +33,8 @@ services:
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
   solr:
@@ -51,6 +51,19 @@ services:
       - solr
       - start
       - -f
+
+  search-service:
+    build: ../search-service
+    container_name: ecommerce-search-service
+    depends_on:
+      - kafka
+      - solr
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: ecommerce-kafka:9092
+      SOLR_URL: http://ecommerce-solr:8983/solr/product
+    ports:
+      - "8888:8888"
+      - "8081:8081"
 
 volumes:
   mysql_data:
