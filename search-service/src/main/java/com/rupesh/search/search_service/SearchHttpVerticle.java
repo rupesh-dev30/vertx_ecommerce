@@ -5,7 +5,10 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.QueryResponse;
+
+import java.util.List;
 
 
 // /api/search?q=iphone&category=mobile&brand=apple&minPrice=50000&sort=price_desc&page=0&size=10
@@ -43,7 +46,13 @@ public class SearchHttpVerticle extends AbstractVerticle {
           SolrQuery query = new SolrQuery();
 
           // 🔹 Full-text search with boosting
-          query.setQuery("name^5 description^2 text_all:" + q);
+          query.setQuery(String.format(
+            "name:(%s)^5 description:(%s)^2 text_all:(%s)",
+            q, q, q
+          ));
+
+          // 🔥 Recency boost
+          query.set("bf", "recip(ms(NOW,created_at),3.16e-11,1,1)");
 
           // 🔹 Filters
           if (category != null) {
@@ -73,6 +82,12 @@ public class SearchHttpVerticle extends AbstractVerticle {
           query.setStart(page * size);
           query.setRows(size);
 
+          // 🔥 Facets
+          query.setFacet(true);
+          query.addFacetField("brand");
+          query.addFacetField("category");
+          query.addNumericRangeFacet("price", 0, 100000, 10000);
+
           QueryResponse response = solrClient.query(query);
 
           JsonArray items = new JsonArray();
@@ -80,11 +95,28 @@ public class SearchHttpVerticle extends AbstractVerticle {
             items.add(JsonObject.mapFrom(doc))
           );
 
+          // 🔹 Facets parsing
+          JsonObject facets = new JsonObject();
+          List<FacetField> facetFields = response.getFacetFields();
+          if (facetFields != null) {
+            for (FacetField f : facetFields) {
+              JsonObject obj = new JsonObject();
+              if (f.getValues() != null) {
+                for (FacetField.Count v : f.getValues()) {
+                  obj.put(v.getName(), v.getCount());
+                }
+              }
+              facets.put(f.getName(), obj);
+            }
+          }
+
+
           JsonObject result = new JsonObject()
             .put("total", response.getResults().getNumFound())
             .put("page", page)
             .put("size", size)
-            .put("items", items);
+            .put("items", items)
+            .put("facets", facets);
 
           promise.complete(result);
 
