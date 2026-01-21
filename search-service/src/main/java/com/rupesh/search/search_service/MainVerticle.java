@@ -11,6 +11,7 @@ public class MainVerticle extends AbstractVerticle {
     vertx.deployVerticle(new HealthVerticle());
     vertx.deployVerticle(new KafkaConsumerVerticle());
     vertx.deployVerticle(new HttpVerticle());
+    vertx.deployVerticle(new SearchHttpVerticle());
 
     startPromise.complete();
   }

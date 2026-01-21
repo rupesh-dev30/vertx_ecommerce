@@ -61,3 +61,5 @@ meta.properties
 /data/zookeeper/
 
 *.lock
+
+docker/solr/product-core/data/
