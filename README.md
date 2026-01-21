@@ -16,7 +16,7 @@ Ensure a fresh state by removing old containers and persistent Solr data:
 
 ```bash
 docker compose down -v
-rm -rf solr/product-core/*
+rm -rf solr/product-core/data
 
 ```
 
