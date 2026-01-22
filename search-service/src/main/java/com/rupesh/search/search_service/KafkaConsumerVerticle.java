@@ -33,12 +33,12 @@ public class KafkaConsumerVerticle extends AbstractVerticle {
 
 //    consumer
 //      .exceptionHandler(err ->
-//        System.err.println("❌ Kafka error: " + err.getMessage())
+//        System.err.println("Kafka error: " + err.getMessage())
 //      );
 //
 //    consumer
 //      .partitionsAssignedHandler(p ->
-//        System.out.println("📌 Partitions assigned: " + p)
+//        System.out.println("Partitions assigned: " + p)
 //      );
 
     consumer.handler(record -> {

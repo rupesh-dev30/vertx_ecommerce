@@ -14,9 +14,9 @@ public class HttpVerticle extends AbstractVerticle {
       })
       .listen(8888, ar -> {
         if (ar.succeeded()) {
-          System.out.println("🌐 HTTP server started on port 8888");
+          System.out.println("HTTP server started on port 8888");
         } else {
-          System.err.println("❌ Failed to start HTTP server");
+          System.err.println("Failed to start HTTP server");
         }
       });
   }

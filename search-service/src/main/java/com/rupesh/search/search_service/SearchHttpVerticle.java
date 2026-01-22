@@ -45,16 +45,16 @@ public class SearchHttpVerticle extends AbstractVerticle {
         try {
           SolrQuery query = new SolrQuery();
 
-          // 🔹 Full-text search with boosting
+          // FULL TEXT SEARCH WITH BOOSTING
           query.setQuery(String.format(
             "name:(%s)^5 description:(%s)^2 text_all:(%s)",
             q, q, q
           ));
 
-          // 🔥 Recency boost
+          // TODO: Recency boost (GO THROUGH)
           query.set("bf", "recip(ms(NOW,created_at),3.16e-11,1,1)");
 
-          // 🔹 Filters
+          // FILTERS
           if (category != null) {
             query.addFilterQuery("category:" + category);
           }
@@ -69,7 +69,7 @@ public class SearchHttpVerticle extends AbstractVerticle {
             query.addFilterQuery("price:[" + min + " TO " + max + "]");
           }
 
-          // 🔹 Sorting
+          // SORTING
           if ("price_asc".equals(sort)) {
             query.setSort("price", SolrQuery.ORDER.asc);
           } else if ("price_desc".equals(sort)) {
@@ -78,11 +78,11 @@ public class SearchHttpVerticle extends AbstractVerticle {
             query.setSort("created_at", SolrQuery.ORDER.desc);
           }
 
-          // 🔹 Pagination
+          // PAGINATION
           query.setStart(page * size);
           query.setRows(size);
 
-          // 🔥 Facets
+          // FACETS
           query.setFacet(true);
           query.addFacetField("brand");
           query.addFacetField("category");
@@ -95,7 +95,7 @@ public class SearchHttpVerticle extends AbstractVerticle {
             items.add(JsonObject.mapFrom(doc))
           );
 
-          // 🔹 Facets parsing
+          // FACETS
           JsonObject facets = new JsonObject();
           List<FacetField> facetFields = response.getFacetFields();
           if (facetFields != null) {
