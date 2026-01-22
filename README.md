@@ -126,7 +126,7 @@ docker exec -i ecommerce-kafka kafka-console-producer \
 
 # Example:
 
-# 🔍 1. BASIC FULL-TEXT SEARCH
+## 🔍 1. BASIC FULL-TEXT SEARCH
 
 ### Search by keyword
 
@@ -148,7 +148,7 @@ curl "http://localhost:8888/api/search?q=galaxy"
 
 ---
 
-# 🎯 2. RELEVANCE & BOOSTING TESTS
+## 🎯 2. RELEVANCE & BOOSTING TESTS
 
 ### Name boosted over description
 
@@ -170,7 +170,7 @@ curl "http://localhost:8888/api/search?q=mobile&sort=newest"
 
 ---
 
-# 🧩 3. CATEGORY FILTERING
+## 🧩 3. CATEGORY FILTERING
 
 ### Single category
 
@@ -186,7 +186,7 @@ curl "http://localhost:8888/api/search?q=apple&category=wearable"
 
 ---
 
-# 🏷️ 4. BRAND FILTERING
+## 🏷️ 4. BRAND FILTERING
 
 ### Filter by brand
 
@@ -202,7 +202,7 @@ curl "http://localhost:8888/api/search?q=phone&brand=samsung&category=mobile"
 
 ---
 
-# 💰 5. PRICE RANGE FILTERING (VERY IMPORTANT)
+## 💰 5. PRICE RANGE FILTERING (VERY IMPORTANT)
 
 ### Min price only
 
@@ -210,7 +210,7 @@ curl "http://localhost:8888/api/search?q=phone&brand=samsung&category=mobile"
 curl "http://localhost:8888/api/search?q=phone&minPrice=30000"
 ```
 
-### Max price only
+## Max price only
 
 ```bash
 curl "http://localhost:8888/api/search?q=phone&maxPrice=60000"
@@ -224,7 +224,7 @@ curl "http://localhost:8888/api/search?q=phone&minPrice=30000&maxPrice=80000"
 
 ---
 
-# 🔀 6. SORTING
+## 🔀 6. SORTING
 
 ### Price ascending
 
@@ -246,21 +246,21 @@ curl "http://localhost:8888/api/search?q=phone&sort=newest"
 
 ---
 
-# 📄 7. PAGINATION
+## 📄 7. PAGINATION
 
-### First page (default)
+## First page (default)
 
 ```bash
 curl "http://localhost:8888/api/search?q=phone&page=0&size=5"
 ```
 
-### Second page
+## Second page
 
 ```bash
 curl "http://localhost:8888/api/search?q=phone&page=1&size=5"
 ```
 
-### Larger page size
+## Larger page size
 
 ```bash
 curl "http://localhost:8888/api/search?q=phone&page=0&size=20"
@@ -268,21 +268,21 @@ curl "http://localhost:8888/api/search?q=phone&page=0&size=20"
 
 ---
 
-# 🧠 8. COMBINED REAL-WORLD QUERIES (MOST IMPORTANT)
+## 🧠 8. COMBINED REAL-WORLD QUERIES
 
-### ECommerce-style query
+## ECommerce-style query
 
 ```bash
 curl "http://localhost:8888/api/search?q=apple&category=mobile&brand=apple&minPrice=50000&sort=price_desc"
 ```
 
-### Amazon-style browsing
+## Amazon-style browsing
 
 ```bash
 curl "http://localhost:8888/api/search?q=phone&category=mobile&sort=price_asc"
 ```
 
-### Wearable discovery
+## Wearable discovery
 
 ```bash
 curl "http://localhost:8888/api/search?q=watch&category=wearable"
@@ -290,7 +290,7 @@ curl "http://localhost:8888/api/search?q=watch&category=wearable"
 
 ---
 
-# 📊 9. FACET VALIDATION (VERY IMPORTANT)
+## 📊 9. FACET VALIDATION (VERY IMPORTANT)
 
 Run:
 
@@ -317,7 +317,7 @@ Verify response contains:
 
 ---
 
-# ❌ 10. NEGATIVE & EDGE CASES (PRODUCTION CHECK)
+## 10. NEGATIVE & EDGE CASES (PRODUCTION CHECK)
 
 ### No results
 
@@ -333,7 +333,7 @@ Expected:
 
 ---
 
-### Invalid filter
+## Invalid filter
 
 ```bash
 curl "http://localhost:8888/api/search?q=phone&category=unknown"
@@ -346,7 +346,7 @@ Expected:
 
 ---
 
-### Extreme price
+## Extreme price
 
 ```bash
 curl "http://localhost:8888/api/search?q=phone&minPrice=1000000"
@@ -354,7 +354,7 @@ curl "http://localhost:8888/api/search?q=phone&minPrice=1000000"
 
 ---
 
-# 🧪 11. REBUILD TEST (CRITICAL)
+## 🧪 11. REBUILD TEST (CRITICAL)
 
 1️⃣ Stop search service
 2️⃣ Delete Solr index
